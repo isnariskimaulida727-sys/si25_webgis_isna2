@@ -1,0 +1,12 @@
+CRITICAL - 2025-10-04 00:20:24 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "v_template_back_end.php"
+[Method: GET, Route: admin]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(214): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('v_template_back_end.php')
+ 2 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('v_template_back_end', [], true)
+ 3 APPPATH\Controllers\Admin.php(13): view('v_template_back_end', [...])
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Admin->index()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(50): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
