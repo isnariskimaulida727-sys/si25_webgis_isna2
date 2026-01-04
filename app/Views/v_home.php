@@ -21,8 +21,8 @@
 
     // --- Inisialisasi Map ---
     var map = L.map('map', {
-        center: [-7.186308, 109.024625],
-        zoom: 12,
+        center: [<?= $web['coordinat_wilayah'] ?>],
+        zoom: <?= $web['zoom_view'] ?>,
         layers: [peta2]
     });
 
@@ -35,4 +35,19 @@
     };
 
     L.control.layers(baseMaps).addTo(map);
+    
+    //tmbhn
+     var allLayers = [];
+  <?php foreach ($wilayah as $key => $value) { ?>
+    var layer = L.geoJSON(<?= json_encode(json_decode($value['geojson'])) ?>, {
+      style: {
+        color: "#110FAA",        // warna garis tepi
+        fillColor: "<?= $value['warna'] ?>",    // warna isi
+        fillOpacity: 0.8,                       // tingkat transparansi //tadi harusnya 0.6
+        weight: 1.5                               // ketebalan garis tepi//1.5
+      }
+    }).bindPopup("<?= $value['nama_wilayah'] ?>").addTo(map);
+    allLayers.push(layer);
+  <?php } ?>
+
 </script>
