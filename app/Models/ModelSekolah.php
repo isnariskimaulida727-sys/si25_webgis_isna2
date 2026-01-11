@@ -10,6 +10,7 @@ class ModelSekolah extends Model
     public function AllData()
     {
         return $this->db->table('tbl_sekolah')
+         ->join('tbl_jenjang', 'tbl_jenjang.id_jenjang = tbl_sekolah.id_jenjang', 'left')
                         ->get()
                         ->getResultArray();
     }

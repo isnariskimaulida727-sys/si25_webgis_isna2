@@ -6,20 +6,20 @@
 
     <div class="card-body">
       <?php 
-      $validation = session()->get('validation');
-      echo form_open_multipart('Sekolah/InsertData');
-      ?>
+    echo form_open_multipart('Sekolah/InsertData');
+$validation = \Config\Services::validation();
+     ?>
 
       <div class="row">
-        <div class="col-sm-3">
+        <div class="col-sm-4">
           <div class="form-group">
             <label>Nama Sekolah</label>
             <input name="nama_sekolah" value="<?= old('nama_sekolah') ?>" placeholder="Nama Sekolah" class="form-control">
-            <p class="text-danger"><?= $validation?->getError('nama_sekolah') ?></p>
+          <p class="text-danger"><?= $validation?->getError('status') ?></p>
           </div>
         </div>
 
-        <div class="col-sm-3">
+        <div class="col-sm-4">
           <div class="form-group">
             <label>Akreditasi</label>
             <input name="akreditasi" value="<?= old('akreditasi') ?>" placeholder="Akreditasi" class="form-control">
@@ -28,7 +28,7 @@
         </div>
       </div>
 
-       <div class="col-sm-3">
+       <div class="col-sm-4">
           <div class="form-group">
             <label>Status</label>
             <select name="status" class="form-control">
@@ -36,7 +36,21 @@
               <option value="Negeri">Negeri</option>
               <option value="Swasta">Swasta</option>
             </select>
-            <p class="text-danger"><?= $validation?->getError('akreditasi') ?></p>
+            <p class="text-danger"><?= $validation?->getError('status') ?></p> 
+          </div>
+        </div>
+
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label>Status</label>
+            <select name="id_jenjang" class="form-control">
+              <option value="">--Pilih Jenjang--</option>
+           <?php foreach ($jenjang as $key => $value) { ?>
+             <option value="<?= $value['id_jenjang'] ?>"><?= $value['jenjang'] ?></option>
+          <?php } ?>
+
+            </select>
+            <p class="text-danger"><?= $validation?->getError('id_jenjang') ?></p> 
           </div>
         </div>
       </div>
@@ -105,13 +119,12 @@
  </div>
 
   <label>Foto Sekolah</label>
-     <input type="file" accept=".jpg" name="foto" value="<?= old('alamat') ?>" class="form-control">
+     <input type="file" accept=".jpg" name="foto" value="<?= old('foto') ?>" class="form-control" required>
             <p class="text-danger"><?= $validation?->getError('foto') ?></p>
  </div>
 
       <button class="btn btn-primary btn-flat" type="submit">Simpan</button>
-      <a href="<?= base_url('Wilayah') ?>" class="btn btn-success btn-flat">Kembali</a>
-
+      <a href="<?= base_url('Sekolah') ?>" class="btn btn-success btn-flat">Kembali</a> 
       <?= form_close(); ?>
     </div>
   </div>
@@ -216,4 +229,3 @@
       });
       map.addLayer(marker);
 </script>
-

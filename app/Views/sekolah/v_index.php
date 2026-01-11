@@ -46,6 +46,7 @@
             <th>Nama Sekolah</th>
             <th>Status</th>
             <th>Akreditasi</th>
+            <th>Jenjang</th>
             <th>Alamat</th>
             <th>Foto</th>
             <th width="150px">Aksi</th>
@@ -59,6 +60,7 @@
               <td><?= $value['nama_sekolah'] ?></td>
               <td class="text-center"><?= $value['status'] ?></td>
               <td class="text-center"><?= $value['akreditasi'] ?></td>
+              <td class="text-center"><?= $value['jenjang'] ?></td>
               <td><?= $value['alamat'] ?></td>
               <td class="text-center"><img src="<?= base_url('foto/' . $value['foto']) ?>" width="120px" height="90px"></td>
               <td class="text-center">
