@@ -5,34 +5,34 @@
     </div>
 
     <div class="card-body">
-      <?php 
-    echo form_open_multipart('Sekolah/InsertData');
-$validation = \Config\Services::validation();
-     ?>
+     
+    <?php echo form_open_multipart('Sekolah/UpdateData/'.$sekolah['id_sekolah']); ?>
+<?php  $validation = \Config\Services::validation(); ?>
+   
 
       <div class="row">
         <div class="col-sm-4">
           <div class="form-group">
             <label>Nama Sekolah</label>
-            <input name="nama_sekolah" value="<?= old('nama_sekolah') ?>" placeholder="Nama Sekolah" class="form-control">
-          <p class="text-danger"><?= $validation?->getError('status') ?></p>
+            <input name="nama_sekolah" value="<?= $sekolah['nama_sekolah'] ?>" placeholder="Nama Sekolah" class="form-control">
+          <p class="text-danger"><?= $validation?->getError('nama_sekolah') ?></p>
           </div>
         </div>
 
         <div class="col-sm-4">
           <div class="form-group">
             <label>Akreditasi</label>
-            <input name="akreditasi" value="<?= old('akreditasi') ?>" placeholder="Akreditasi" class="form-control">
+            <input name="akreditasi" value="<?= $sekolah['akreditasi'] ?>" placeholder="Akreditasi" class="form-control">
             <p class="text-danger"><?= $validation?->getError('akreditasi') ?></p>
           </div>
         </div>
       </div>
 
        <div class="col-sm-4">
-          <div class="form-group">
+          <div class="form-group"> 
             <label>Status</label>
             <select name="status" class="form-control">
-              <option value="">--Pilih Status--</option>
+            <option value= "<?= $sekolah['status'] ?>"><?= $sekolah['status'] ?></option>
               <option value="Negeri">Negeri</option>
               <option value="Swasta">Swasta</option>
             </select>
@@ -46,7 +46,7 @@ $validation = \Config\Services::validation();
             <select name="id_jenjang" class="form-control">
               <option value="">--Pilih Jenjang--</option>
            <?php foreach ($jenjang as $key => $value) { ?>
-             <option value="<?= $value['id_jenjang'] ?>"><?= $value['jenjang'] ?></option>
+             <option value="<?= $value['id_jenjang'] ?>" <?= $value['id_jenjang'] == $sekolah['id_jenjang'] ? 'selected' :''?>><?= $value['jenjang'] ?></option>
           <?php } ?>
 
             </select>
@@ -58,7 +58,7 @@ $validation = \Config\Services::validation();
       <div class="form-group">
         <label>Coordinat Sekolah</label>
        <div id="map" style="width: 100%; height: 400px;"></div>
-        <input name="coordinat" id="Coordinat" value="<?= old('coordinat') ?>" placeholder="Coordinat Sekolah" class="form-control" readonly>
+        <input name="coordinat" id="Coordinat" value="<?= $sekolah['coordinat'] ?>" placeholder="Coordinat Sekolah" class="form-control" readonly>
             <p class="text-danger"><?= $validation?->getError('coordinat') ?></p>
  </div>
 
@@ -69,7 +69,7 @@ $validation = \Config\Services::validation();
             <select name="id_provinsi" id="id_provinsi" class="form-control select2">
               <option value="">--Pilih Provinsi--</option>
               <?php foreach ($provinsi as $key => $value) { ?>
-             <option value="<?= $value['id_provinsi'] ?>"><?= $value['nama_provinsi'] ?></option>
+             <option value="<?= $value['id_provinsi'] ?>" <?= $value['id_provinsi'] == $sekolah['id_provinsi'] ? 'selected' :''?>><?= $value['nama_provinsi'] ?></option>
 <?php } ?>
             </select>
             <p class="text-danger"><?= $validation?->getError('id_provinsi') ?></p>
@@ -80,6 +80,7 @@ $validation = \Config\Services::validation();
           <div class="form-group">
             <label>Kabupaten</label>
             <select name="id_kabupaten" id="id_kabupaten" class="form-control select2">
+            <option value="<?= $sekolah['id_kabupaten'] ?>"><?= $sekolah['nama_kabupaten'] ?></option>
             </select>
             <p class="text-danger"><?= $validation?->getError('id_kabupaten') ?></p>
           </div>
@@ -89,6 +90,7 @@ $validation = \Config\Services::validation();
           <div class="form-group">
             <label>Kecamatan</label>
             <select name="id_kecamatan" id="id_kecamatan" class="form-control select2">
+            <option value="<?= $sekolah['id_kecamatan'] ?>"><?= $sekolah['nama_kecamatan'] ?></option>
             </select>
             <p class="text-danger"><?= $validation?->getError('id_kecamatan') ?></p>
           </div>
@@ -99,7 +101,7 @@ $validation = \Config\Services::validation();
   <div class="col-sm-8">
  <div class="form-group">
         <label>Alamat</label>
-     <input name="alamat" value="<?= old('alamat') ?>" placeholder="Alamat Sekolah" class="form-control">
+     <input name="alamat" value="<?= $sekolah['alamat'] ?>" placeholder="Alamat Sekolah" class="form-control">
             <p class="text-danger"><?= $validation?->getError('alamat') ?></p>
  </div>
  </div>
@@ -110,23 +112,23 @@ $validation = \Config\Services::validation();
             <select name="id_wilayah" class="form-control">
                <option value="">--Pilih Wilayah Administrasi--</option>
               <?php foreach ($wilayah as $key => $value) { ?>
-             <option value="<?= $value['id_wilayah'] ?>"><?= $value['nama_wilayah'] ?></option>
+             <option value="<?= $value['id_wilayah'] ?>" <?= $value['id_wilayah'] == $sekolah['id_wilayah'] ? 'selected' :''?>><?= $value['nama_wilayah'] ?></option>
 <?php } ?>
             </select>
             <p class="text-danger"><?= $validation?->getError('id_wilayah') ?></p>
           </div>
         </div>
  </div>
-
-  <label>Foto Sekolah</label>
-     <input type="file" accept=".jpg" name="foto" value="<?= old('foto') ?>" class="form-control" required>
+<dif class="form-group">
+  <label>Ganti Foto Sekolah</label>
+     <input type="file" accept=".jpg" name="foto" value="<?= old('foto') ?>" class="form-control">
             <p class="text-danger"><?= $validation?->getError('foto') ?></p>
-</div>
-
+  </div>
+  
 
       <button class="btn btn-primary btn-flat" type="submit">Simpan</button>
       <a href="<?= base_url('Sekolah') ?>" class="btn btn-success btn-flat">Kembali</a> 
-      <?= form_close(); ?>
+      <?php echo form_close(); ?>
     </div>
   </div>
 </div>
@@ -187,7 +189,7 @@ $validation = \Config\Services::validation();
 
     // --- Inisialisasi Map ---
     var map = L.map('map', {
-        center: [<?= $web['coordinat_wilayah'] ?>],
+        center: [<?= $sekolah['coordinat']?>],
         zoom: <?= $web['zoom_view'] ?>,
         layers: [peta2]
     });
@@ -203,7 +205,7 @@ $validation = \Config\Services::validation();
     L.control.layers(baseMaps).addTo(map); //var/L.
     
     var coordinatInput = document.querySelector("[name=coordinat]");
-    var curLocation = [<?= $web['coordinat_wilayah'] ?>];
+    var curLocation = [<?=$sekolah['coordinat'] ?>];
     map.attributionControl.setPrefix(false);
     var marker = new L.marker(curLocation,{
       draggable: 'true',

@@ -64,7 +64,7 @@
               <td><?= $value['alamat'] ?></td>
               <td class="text-center"><img src="<?= base_url('foto/' . $value['foto']) ?>" width="120px" height="90px"></td>
               <td class="text-center">
-                <a href="<?= base_url('Sekolah/Edit/'.$value['id_sekolah']) ?>" class="btn btn-xs btn-success btn-flat"><i class="fas fa-eye"></i></a>
+                <a href="<?= base_url('Sekolah/Detail/'.$value['id_sekolah']) ?>" class="btn btn-xs btn-success btn-flat"><i class="fas fa-eye"></i></a>
                 <a href="<?= base_url('Sekolah/Edit/'.$value['id_sekolah']) ?>" class="btn btn-xs btn-warning btn-flat"><i class="fas fa-pencil-alt"></i></a>
                 <a href="<?= base_url('Sekolah/Delete/'.$value['id_sekolah']) ?>" onclick="return confirm('Yakin Hapus Data ?')" class="btn btn-xs btn-danger btn-flat"><i class="fas fa-trash"></i></a>
               </td>

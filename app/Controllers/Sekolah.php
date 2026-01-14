@@ -47,7 +47,7 @@ class Sekolah extends BaseController
 
 public function InsertData()
     {
-         if (!$this->validate([
+         if ($this->validate([
             'nama_sekolah' => [
                 'label' => 'Nama Sekolah',
                 'rules' => 'required',
@@ -120,7 +120,7 @@ public function InsertData()
             ],
             'foto' => [
                 'label' => 'Foto Sekolah',
-                'rules' => 'max_size[foto,2000]|mime_in[foto,image/jpg,image/jpeg,image/png]',
+                'rules' => 'permit_empty|max_size[foto,2000]|mime_in[foto,image/jpg,image/jpeg,image/png]',
                 'errors' => [
                     'max_size' => 'Ukuran {field} max 2000 kb !!',
                     'mime_in' => 'format {field} Harus JPG, JPEG, PNG !!',
@@ -129,12 +129,7 @@ public function InsertData()
         ])) {
            
 
-            //jika validasi berhasil
-            return redirect()
-               ->back() //  ->to(base_url('Sekolah/Input'))  //->to(base_url('Wilayah/Input')) 
-                ->withInput(); //; ilng
-                  // ->with('validation', $this->validator);  
-        }
+        
          $foto = $this->request->getFile('foto');
             $nama_file_foto = $foto->getRandomName();
             // //jika validasi berhasil
@@ -156,9 +151,177 @@ public function InsertData()
         session()->setFlashdata('insert', 'Data Berhasil Ditambahkan !!');
         return redirect()->to(base_url('Sekolah'));
     
-
+     }else{
+        //jika validasi gagal
+            session()->setFlashdata('errors',\Config\Services::validation()->getErrors());
+            return redirect()->back()->withInput();
+        }
     }
 
+     public function Edit($id_sekolah)
+    {
+        $data = [
+            'judul' => 'Edit Sekolah',
+            'menu' => 'sekolah' ,
+            'page' => 'sekolah/v_edit', 
+            'web' => $this->ModelSetting->DataWeb(),
+            'provinsi' =>$this->ModelSekolah->allProvinsi(),
+            'wilayah' => $this->ModelWilayah->AllData(),
+            'jenjang' => $this->ModelJenjang->AllData(),
+            'sekolah' => $this->ModelSekolah->DetailData($id_sekolah),
+            
+        ];
+        return view('v_template_back_end', $data);
+    }
+
+    public function UpdateData($id_sekolah)
+    {
+         if ($this->validate([
+            'nama_sekolah' => [
+                'label' => 'Nama Sekolah',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => '{field} Wajib Diisi !!'
+                    ]
+            ],
+            'akreditasi' => [
+                'label' => 'Akreditasi',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => '{field} Wajib Diisi !!'
+                ]
+            ],
+            'status' => [
+                'label' => 'Status',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => '{field} Wajib Diisi !!'
+                ]
+            ],
+             'id_jenjang' => [
+                'label' => 'Jenjang',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => '{field} Wajib Diisi !!'
+                ]
+            ],
+            'coordinat' => [
+                'label' => 'Coordinat',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => '{field} Wajib Diisi !!'
+                ]
+            ],
+            'id_provinsi' => [
+                'label' => 'Provinsi',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => '{field} Wajib Diisi !!'
+                ]
+            ],
+             'id_kabupaten' => [
+                'label' => 'Kabupaten',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => '{field} Wajib Diisi !!'
+                ]
+            ],
+             'id_kecamatan' => [
+                'label' => 'Kecamatan',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => '{field} Wajib Diisi !!'
+                ]
+            ],
+             'alamat' => [
+                'label' => 'Alamat',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => '{field} Wajib Diisi !!'
+                ]
+            ],
+            'id_wilayah' => [
+                'label' => 'Wilayah Administrasi',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => '{field} Wajib Diisi !!'
+                ]
+            ],
+            'foto' => [
+                'label' => 'Foto Sekolah',
+                'rules' => 'permit_empty|max_size[foto,2000]|mime_in[foto,image/jpg,image/jpeg,image/png]',
+                'errors' => [
+                    'max_size' => 'Ukuran {field} max 2000 kb !!',
+                    'mime_in' => 'format {field} Harus JPG, JPEG, PNG !!',
+                ]
+            ],
+        ])) {
+            $sekolah = $this->ModelSekolah->DetailData($id_sekolah);
+            $foto = $this->request->getFile('foto');
+          
+            
+            if ($foto->getError()== 4) {
+               $nama_file_foto = $sekolah['foto'];
+            }else {
+                $nama_file_foto = $foto->getRandomName();
+                 $foto->move('foto', $nama_file_foto);
+            }
+            // //jika validasi berhasil
+        $data = [
+            'id_sekolah' => $id_sekolah,
+            'nama_sekolah' => $this->request->getPost('nama_sekolah'),
+            'akreditasi' => $this->request->getPost('akreditasi'),
+            'status' => $this->request->getPost('status'),
+            'coordinat' => $this->request->getPost('coordinat'),
+            'id_jenjang' => $this->request->getPost('id_jenjang'),
+            'id_provinsi' => $this->request->getPost('id_provinsi'),
+            'id_kabupaten' => $this->request->getPost('id_kabupaten'),
+            'id_kecamatan' => $this->request->getPost('id_kecamatan'),
+            'alamat' => $this->request->getPost('alamat'),
+            'id_wilayah' => $this->request->getPost('id_wilayah'),
+            'foto' => $nama_file_foto,
+        ];
+       
+        $this->ModelSekolah->UpdateData($data);
+        session()->setFlashdata('insert', 'Data Berhasil DiUpdate !!');
+        return redirect()->to(base_url('Sekolah'));
+    }else{
+        //jika validasi gagal
+            session()->setFlashdata('errors',\Config\Services::validation()->getErrors());
+            return redirect()->to('Sekolah/Edit/'.$id_sekolah)->withInput('validations', \Config\Services::validation());
+        }
+    }
+
+    //delete
+    public function Delete($id_sekolah)
+    {
+        //delete foto
+         $sekolah = $this->ModelSekolah->DetailData($id_sekolah);
+         if ($sekolah['foto']<>'') {
+            unlink('foto/'.$sekolah['foto']);
+         }
+         $data = [
+            'id_sekolah' => $id_sekolah,
+         ];
+        $this->ModelSekolah->DeleteData($data);
+        session()->setFlashdata('delete', 'Data Berhasil DiDelete !!');
+        return redirect()->to(base_url('Sekolah'));
+    }
+
+    public function Detail($id_sekolah)
+    {
+         $data = [
+            'judul' => 'Detail Sekolah',
+            'menu' => 'sekolah' ,
+            'page' => 'sekolah/v_detail', 
+            'web' => $this->ModelSetting->DataWeb(),
+            'sekolah' => $this->ModelSekolah->DetailData($id_sekolah),
+            
+        ];
+        return view('v_template_back_end', $data);
+    }
+
+   
     //kabupaten, kecamatan
     public function Kabupaten()
     {
