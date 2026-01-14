@@ -15,7 +15,7 @@ $validation = \Config\Services::validation();
           <div class="form-group">
             <label>Nama Sekolah</label>
             <input name="nama_sekolah" value="<?= old('nama_sekolah') ?>" placeholder="Nama Sekolah" class="form-control">
-          <p class="text-danger"><?= $validation?->getError('status') ?></p>
+          <p class="text-danger"><?= $validation?->getError('nama_sekolah') ?></p>
           </div>
         </div>
 
