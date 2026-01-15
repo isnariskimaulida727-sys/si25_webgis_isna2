@@ -58,7 +58,7 @@ $validation = \Config\Services::validation();
       <div class="form-group">
         <label>Coordinat Sekolah</label>
        <div id="map" style="width: 100%; height: 400px;"></div>
-        <input name="coordinat" id="Coordinat" value="<?= old('coordinat') ?>" placeholder="Coordinat Sekolah" class="form-control" readonly>
+        <input name="coordinat" id="Coordinat" value="<?= old('coordinat') ?>" placeholder="Coordinat" class="form-control">
             <p class="text-danger"><?= $validation?->getError('coordinat') ?></p>
  </div>
 
@@ -229,4 +229,22 @@ $validation = \Config\Services::validation();
     coordinatInput.value=lat+','+lng;
       });
       map.addLayer(marker);
+
+      // KODE BARU: Supaya kalau diketik, marker di peta ikut pindah
+      $("#Coordinat").on("input", function() {
+        var inputVal = $(this).val();
+        var potong = inputVal.split(","); // Memisahkan angka lewat koma
+        
+        if (potong.length === 2) {
+          var lat = parseFloat(potong[0]);
+          var lng = parseFloat(potong[1]);
+          
+          if (!isNaN(lat) && !isNaN(lng)) {
+            var posisiBaru = [lat, lng];
+            marker.setLatLng(posisiBaru); // Pindahkan marker
+            map.setView(posisiBaru, 17);  // Peta otomatis geser ke sana
+          }
+        }
+      });
+
 </script>

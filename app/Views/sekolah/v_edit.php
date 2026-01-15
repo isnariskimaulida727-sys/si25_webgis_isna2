@@ -58,7 +58,7 @@
       <div class="form-group">
         <label>Coordinat Sekolah</label>
        <div id="map" style="width: 100%; height: 400px;"></div>
-        <input name="coordinat" id="Coordinat" value="<?= $sekolah['coordinat'] ?>" placeholder="Coordinat Sekolah" class="form-control" readonly>
+       <input name="coordinat" id="Coordinat" value="<?= (old('coordinat')) ?old('coordinat') :$sekolah['coordinat'] ?>" placeholder="Coordinat Sekolah" class="form-control">
             <p class="text-danger"><?= $validation?->getError('coordinat') ?></p>
  </div>
 
@@ -231,4 +231,24 @@
     coordinatInput.value=lat+','+lng;
       });
       map.addLayer(marker);
+
+      // KODE BARU: Sinkronisasi ketik manual di file EDIT
+      $("#Coordinat").on("input", function() {
+        var isiInput = $(this).val();
+        var koordinat = isiInput.split(","); 
+        
+        if (koordinat.length === 2) {
+          var lat = parseFloat(koordinat[0].trim());
+          var lng = parseFloat(koordinat[1].trim());
+          
+          if (!isNaN(lat) && !isNaN(lng)) {
+            var posisiBaru = [lat, lng];
+            marker.setLatLng(posisiBaru); // Marker pindah sesuai ketikan
+            map.setView(posisiBaru, 17);  // Peta otomatis geser/zoom ke sana
+          } else {
+            alert("Format koordinat salah! Gunakan angka, contoh: -7.123, 110.456");
+          }
+        }
+      });
+
 </script>
