@@ -95,7 +95,7 @@
 
     var icon = L.icon({
     iconUrl: '<?= base_url('marker/'.$sekolah['marker']) ?>',
-    iconSize:     [30, 40], // size of the icon
+    iconSize:     [50, 60], // size of the icon
 });
     L.marker([<?=$sekolah['coordinat'] ?>],{
         icon: icon
